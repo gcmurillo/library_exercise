@@ -2,6 +2,7 @@ import mysql.connector
 from mysql.connector import errorcode
 import utils
 import autor
+import libro
 
 config = {
   'user': 'root',
@@ -34,9 +35,14 @@ try:
     if input_menu_principal == "1":
       if autor.crearAutor(cursor): 
         cnx.commit()
-        print("¡Autor creado correctamente!")
+        print("¡Autor agregado correctamente!")
+    if input_menu_principal == "2":
+      if libro.crearLibro(cursor):
+        cnx.commit()
+        print("¡Libro agregado correctamente!")
     if input_menu_principal == "5": 
       cursor.close()
+      cnx.close()
       print("Hasta luego!")
       exit = "5"
 
