@@ -20,29 +20,29 @@ class Autor():
         self.fecha_nacimiento = None
 
 
-def crearAutor(cursor):
-    print("AGREGAR NUEVO AUTOR")
-    try:
-        nombre = utils.ingresarString("Ingrese nombre del autor: ")
-        apellido = utils.ingresarString("Ingrese apellido del autor: ")
-        fecha_nacimiento = utils.ingresarFecha("Ingresar fecha de nacimiento del autor ")
-        data_autor = (nombre, apellido, fecha_nacimiento)
-        cursor.execute(add_Autor_query, data_autor)
-        return True
-    except Exception as e:
-        print("Error: ", e.__context__)
-        return False
+    def crearAutor(self, cursor):
+        print("AGREGAR NUEVO AUTOR")
+        try:
+            nombre = utils.ingresarString("Ingrese nombre del autor: ")
+            apellido = utils.ingresarString("Ingrese apellido del autor: ")
+            fecha_nacimiento = utils.ingresarFecha("Ingresar fecha de nacimiento del autor ")
+            data_autor = (nombre, apellido, fecha_nacimiento)
+            cursor.execute(add_Autor_query, data_autor)
+            return True
+        except Exception as e:
+            print("Error: ", e.__context__)
+            return False
     
 
-def listarAutoresPorNombre(cursor, _nombre):
-    rows = 0
-    try:
-        cursor.execute(list_Autor_query, (_nombre, ))
-        print("Autores:")
-        print("ID, NOMBRE, APELLIDO, FECHA DE NACIMIENTO")
-        for (id, nombre, apellido, fecha_nacimiento) in cursor:
-            rows += 1
-            print(id, nombre, apellido, fecha_nacimiento)
-        return rows
-    except Exception:
-        raise
+    def listarAutoresPorNombre(self, cursor, _nombre):
+        try:
+            rows = 0
+            cursor.execute(list_Autor_query, (_nombre, ))
+            print("Autores:")
+            print("ID | NOMBRE | APELLIDO |FECHA DE NACIMIENTO")
+            for (id, nombre, apellido, fecha_nacimiento) in cursor:
+                rows += 1
+                print(id, "|", nombre, "|", apellido, "|", fecha_nacimiento)
+            return rows
+        except Exception:
+            raise

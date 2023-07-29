@@ -22,6 +22,9 @@ Menu principal:
 5. Salir
 """
 
+autor_class=autor.Autor()
+libro_class=libro.Libro()
+
 try:
   cnx = mysql.connector.connect(**config)
   cursor = cnx.cursor()
@@ -33,13 +36,17 @@ try:
     while not utils.validarOpcion(["1", "2", "3", "4", "5"], input_menu_principal):
       input_menu_principal = input("Escoga una opción: ")
     if input_menu_principal == "1":
-      if autor.crearAutor(cursor): 
+      if autor_class.crearAutor(cursor): 
         cnx.commit()
         print("¡Autor agregado correctamente!")
     if input_menu_principal == "2":
-      if libro.crearLibro(cursor):
+      if libro_class.crearLibro(cursor):
         cnx.commit()
         print("¡Libro agregado correctamente!")
+    if input_menu_principal == "3":
+      libro_class.listarLibroPorTitulo(cursor)
+    if input_menu_principal == "4":
+      libro_class.listarLibrosPorAutor(cursor)
     if input_menu_principal == "5": 
       cursor.close()
       cnx.close()
