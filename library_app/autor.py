@@ -25,6 +25,10 @@ list_all_query = """
 SELECT * FROM autor
 """
 
+delete_query = """
+DELETE FROM autor WHERE id = %s
+"""
+
 class Autor():
 
     def __init__(self, id=0, nombre="", apellido="", fecha_nacimiento=None):
@@ -81,5 +85,12 @@ class Autor():
             print("ID | NOMBRE | APELLIDO |FECHA DE NACIMIENTO")
             for (id, nombre, apellido, fecha_nacimiento) in cursor:
                 print(id, "|", nombre, "|", apellido, "|", fecha_nacimiento)
-        except Exception:
-            raise
+        except Exception as e:
+            raise e
+
+    def delete(self, cursor):
+        try:
+            cursor.execute(delete_query, (self.id, ))
+        except Exception as e:
+            raise e
+        

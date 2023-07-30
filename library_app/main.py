@@ -80,13 +80,34 @@ try:
         if _libro:
           _libro.titulo = utils.ingresarString("Ingrese nuevo nombre (anterior: %s): " % _libro.titulo)
           _libro.fecha_publicacion = utils.ingresarFecha("Ingrese nueva fecha de publicacion (anterior: %s): " % _libro.fecha_publicacion)
-        autor_class.listAll(cursor)
-        _libro.autor_id = utils.ingresarString("Ingresa ID del nuevo autor (anterior: %s): " % _libro.autor_id)
-        _libro.update(cursor)
-        cnx.commit()
-        print("¡Libro actualizado!")
+          autor_class.listAll(cursor)
+          _libro.autor_id = utils.ingresarString("Ingresa ID del nuevo autor (anterior: %s): " % _libro.autor_id)
+          _libro.update(cursor)
+          cnx.commit()
+          print("¡Libro actualizado!")
+        else:
+          print("No se encontró libro con id: %s" % _id)
       except Exception as err:
         print("Error: ", err.__context__)
+    if input_menu_principal == "7":
+      print("ELIMINAR AUTOR")
+      _nombre = utils.ingresarString("Ingrese nombre del autor: ")
+      autor_class.listarAutoresPorNombre(cursor, _nombre)
+      _id = utils.ingresarString("Ingrese el ID del autor a eliminar: ")
+      _autor = autor_class.getById(cursor, _id)
+      if autor:
+        try:
+          confirm = utils.ingresarString("Ingrese (Y) para confirmar la eliminación del autor %s %s: " % (_autor.nombre, _autor.apellido))
+          if confirm == "Y":
+            _autor.delete(cursor)
+            cnx.commit()
+            print("¡Autor eliminado!")
+          else:
+            print("No se elimina al autor")
+        except Exception as err:
+          print("Error: ", err)
+      else:
+        print("No se encontró autor con id: %s" % _id)
     if input_menu_principal == "9": 
       cursor.close()
       cnx.close()
