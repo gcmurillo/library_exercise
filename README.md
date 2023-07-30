@@ -16,7 +16,17 @@ Esto creará la base de datos llamada `library` y las tablas `autor` y `libro`
     ```
     $ .env\Scripts\activate
     ``` 
-4. installar mysql connector
+4. Instalar dependencias
     ```
-    $ pip install mysql-connector-python
+    $ pip install -r requeriments.txt
     ``` 
+
+## Correr el programa
+1. Localizarse en la carpeta `library_app`
+```
+$ cd library_app
+```
+2. Correr el programa
+```
+$ python main.py
+```
