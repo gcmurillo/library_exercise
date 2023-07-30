@@ -32,6 +32,10 @@ SET titulo = %s, fecha_publicacion = %s, autor_id = %s
 WHERE id = %s
 """
 
+delete_query = """
+DELETE FROM autor WHERE id = %s
+"""
+
 class Libro():
 
     def __init__(self, id=0, titulo="", fecha_publicacion=None, autor_id=0):
@@ -91,5 +95,11 @@ class Libro():
     def update(self, cursor):
         try:
             cursor.execute(update_libro_query, (self.titulo, self.fecha_publicacion, int(self.autor_id), self.id))
+        except Exception as err:
+            raise err
+        
+    def delete(self, cursor):
+        try:
+            cursor.execute(delete_query, (self.id, ))
         except Exception as err:
             raise err

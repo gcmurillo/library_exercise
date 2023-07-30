@@ -22,7 +22,7 @@ Menu principal:
 5. Actualizar autor
 6. Actualizar libro
 7. Eliminar autor
-8. Elimiar libro
+8. Eliminar libro
 9. Salir
 """
 
@@ -40,19 +40,19 @@ try:
     input_menu_principal = input("Escoga una opción: ")
     while not utils.validarOpcion(["1", "2", "3", "4", "5", "6", "7", "8", "9"], input_menu_principal):
       input_menu_principal = input("Escoga una opción: ")
-    if input_menu_principal == "1":
+    if input_menu_principal == "1": # CREAR AUTOR
       if autor_class.crearAutor(cursor): 
         cnx.commit()
         print("¡Autor agregado correctamente!")
-    if input_menu_principal == "2":
+    if input_menu_principal == "2":  # CREAR LIBRO
       if libro_class.crearLibro(cursor):
         cnx.commit()
         print("¡Libro agregado correctamente!")
-    if input_menu_principal == "3":
+    if input_menu_principal == "3":  # CONSULTAR POR TITULO
       libro_class.listarLibroPorTitulo(cursor)
-    if input_menu_principal == "4":
+    if input_menu_principal == "4":  # CONSULTAR POR AUTOR
       libro_class.listarLibrosPorAutor(cursor)
-    if input_menu_principal == "5":
+    if input_menu_principal == "5":  # ACTUALIZAR AUTOR
       print("ACTUALIZAR AUTOR")
       _nombre = utils.ingresarString("Ingrese nombre del autor: ")
       autor_class.listarAutoresPorNombre(cursor, _nombre)
@@ -70,7 +70,7 @@ try:
           print("Error: ", err)
       else:
         print("No se encontró autor con id: %s" % _id)
-    if input_menu_principal == "6":
+    if input_menu_principal == "6":  # ACTUALIZAR LIBRO
       print("ACTUALIZAR LIBRO")
       try: 
         _titulo = utils.ingresarString("Ingrese título del libro: ")
@@ -89,7 +89,7 @@ try:
           print("No se encontró libro con id: %s" % _id)
       except Exception as err:
         print("Error: ", err.__context__)
-    if input_menu_principal == "7":
+    if input_menu_principal == "7": # ELIMINAR AUTOR
       print("ELIMINAR AUTOR")
       _nombre = utils.ingresarString("Ingrese nombre del autor: ")
       autor_class.listarAutoresPorNombre(cursor, _nombre)
@@ -108,6 +108,28 @@ try:
           print("Error: ", err)
       else:
         print("No se encontró autor con id: %s" % _id)
+    if input_menu_principal == "8": # ELIMINAR LIBRO
+      print("ELIMINAR LIBRO")
+      try: 
+        _titulo = utils.ingresarString("Ingrese título del libro: ")
+        libro_class.listarLibroPorTitulo(cursor, _titulo)
+        _id = utils.ingresarString("Ingrese ID del libro a eliminar: ")
+        _libro = libro_class.getById(cursor, _id)
+        if _libro:
+          try:
+            confirm = utils.ingresarString("Ingrese (Y) para confirmar la eliminación del libro %s: " % _libro.titulo)
+            if confirm == "Y":
+              _libro.delete(cursor)
+              cnx.commit()
+              print("¡Libro eliminado!")
+            else:
+              print("No se elimina el libro")
+          except Exception as err:
+            print("Error: ", err.__context__)
+        else:
+          print("No se encontró libro con id: %s" % _id)
+      except Exception as err:
+        print("Error: ", err.__context__)
     if input_menu_principal == "9": 
       cursor.close()
       cnx.close()
